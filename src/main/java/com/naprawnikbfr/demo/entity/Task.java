@@ -25,6 +25,9 @@ public class Task {
     @Column (name = "task_description")
     private String taskDescription;
 
+    @Column (name = "is_completed")
+    private boolean isCompleted;
+
     //create constructors
     public Task(){}
 
@@ -57,11 +60,20 @@ public class Task {
         this.taskDescription = taskDescription;
     }
 
+    public boolean getIsCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
+    }
+
     @Override
     public String toString() {
         return "Task{" +
                 "taskId=" + taskId +
                 ", taskDescription='" + taskDescription + '\'' +
+                ", isCompleted=" + isCompleted +
                 '}';
     }
 }
