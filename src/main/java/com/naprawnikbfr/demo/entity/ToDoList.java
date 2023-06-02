@@ -1,0 +1,78 @@
+package com.naprawnikbfr.demo.entity;
+
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+//annotate class as an entity
+@Entity
+@Table(name = "lists")
+public class ToDoList {
+
+    //define the fields and annotate the fields with DB columns names
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column (name = "list_id")
+    private int listId;
+
+    @Column (name = "list_name")
+    private String listName;
+
+    //In case bi-directional: modify Cascade to omit CascadeType.DELETE
+    @OneToMany (mappedBy = "toDoList")
+    private List<Task> tasks;
+
+    //create constructors
+    //non-arg - required by HIB/JPA
+    public ToDoList() {}
+
+    public ToDoList(String listName) {
+        this.listName = listName;
+    }
+
+    //create getters and setters
+    public int getListId() {
+        return listId;
+    }
+
+    public void setListId(int listId) {
+        this.listId = listId;
+    }
+
+    public String getListName() {
+        return listName;
+    }
+
+    public void setListName(String listName) {
+        this.listName = listName;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    // add convenience method
+
+    public void addTask(Task tempTask){
+        if (tasks == null){
+            tasks = new ArrayList<>();
+        }
+        tasks.add(tempTask);
+
+        //In case bi-directional: relationship set-up
+        //tempTask.setToDoList(this);
+    }
+
+    @Override
+    public String toString() {
+        return "List{" +
+                "listId=" + listId +
+                ", listName='" + listName + '\'' +
+                '}';
+    }
+}
