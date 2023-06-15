@@ -19,9 +19,10 @@ public class ToDoList {
     @Column (name = "list_name")
     private String listName;
 
-    //In case bi-directional: modify Cascade to omit CascadeType.DELETE
-    @OneToMany (mappedBy = "toDoList")
-    private List<Task> tasks;
+    @OneToMany (mappedBy = "toDoList",
+                cascade = CascadeType.ALL,
+                orphanRemoval = true)
+    private List<Task> tasks = new ArrayList<>();
 
     //create constructors
     //non-arg - required by HIB/JPA
@@ -56,17 +57,13 @@ public class ToDoList {
         this.tasks = tasks;
     }
 
-    // add convenience method
-
+    //utility methods which are used to synchronize both sides of the bidirectional association
     public void addTask(Task tempTask){
-        if (tasks == null){
-            tasks = new ArrayList<>();
-        }
         tasks.add(tempTask);
-
-        //In case bi-directional: relationship set-up
-        //tempTask.setToDoList(this);
+        tempTask.setToDoList(this);
     }
+
+    //!!!! utility method for remove !!!!
 
     @Override
     public String toString() {

@@ -13,13 +13,8 @@ public class Task {
     @Column (name = "task_id")
     private int taskId;
 
-    //    In case bi-directional:
-    //    @ManyToOne (cascade = { CascadeType.PERSIST,
-    //                            CascadeType.MERGE,
-    //                            CascadeType.DETACH,
-    //                            CascadeType.REFRESH,})
-    //    @JoinColumn (name = "list_id")
-    @Column (name = "list_id")
+    @ManyToOne (fetch = FetchType.LAZY)
+    @JoinColumn (name = "list_id")
     private ToDoList toDoList;
 
     @Column (name = "task_description")
@@ -64,8 +59,8 @@ public class Task {
         return isCompleted;
     }
 
-    public void setCompleted(boolean completed) {
-        isCompleted = completed;
+    public void setCompleted(boolean isCompleted) {
+        this.isCompleted = isCompleted;
     }
 
     @Override
